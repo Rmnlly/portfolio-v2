@@ -1,0 +1,24 @@
+.headerContainer {
+  padding-top: 1rem;
+}
+
+.mainNav,
+.mainNav a {
+  text-decoration: none;
+  list-style: none;
+  color: black;
+}
+
+.mainNav {
+  display: flex;
+  justify-content: space-around;
+  padding: 0;
+  margin: 0;
+}
+
+@media (min-width: 768px) {
+  .headerContainer {
+    /* for desktop we're saying start at column 7 and go to the end */
+    grid-column: col-start 7/ -1;
+  }
+}

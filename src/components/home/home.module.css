@@ -1,0 +1,14 @@
+.homeContainer {
+  display: grid;
+  /* Repeat makes 12 items, with track names of col-start that take up 1fr each */
+  grid-template-columns: repeat(12, [col-start] 1fr);
+  grid-gap: 20px;
+}
+
+.homeContainer > * {
+  /* So this is short hard for grid-column-start and end, in this case making a 12 column grid */
+  grid-column: col-start / span 12;
+}
+
+@media (min-width: 768px) {
+}
