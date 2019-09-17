@@ -3,6 +3,8 @@
   /* Repeat makes 12 items, with track names of col-start that take up 1fr each */
   grid-template-columns: repeat(12, [col-start] 1fr);
   grid-gap: 20px;
+  background-color: black;
+  color: white;
 }
 
 .homeContainer > * {

@@ -1,48 +1,44 @@
-import React from "react";
-import { useSpring, animated, interpolate } from "react-spring";
-// import styles from "./hero.module.css";
+import React, { useState } from "react";
+import { useSpring, animated, useTrail } from "react-spring";
+import styles from "./hero.module.css";
+
+import Header from "../header";
 
 const Hero = ({ text }) => {
-  const animationStyle = useSpring({ width: "100%", from: { width: "0%" } });
-  const { o, xyz, color } = useSpring({
-    from: { o: 0, xyz: [0, 0, 0], color: "purple" },
-    o: 1,
-    xyz: [10, 20, 5],
-    color: "blue"
+  const [toggle, setToggle] = useState(true);
+  const config = { mass: 5, tension: 2000, friction: 200 };
+
+  const trail = useTrail(text.length, {
+    config,
+    opacity: toggle ? 1 : 0,
+    x: toggle ? 0 : 10,
+    height: toggle ? 80 : 0,
+    from: { opacity: 0, x: 10, height: 0 }
   });
 
   return (
-    <>
-      <animated.div style={animationStyle}>{text}</animated.div>
-      <animated.div
-        style={{
-          // If you can, use plain animated values like always, ...
-          // You would do that in all cases where values "just fit"
-          color,
-          // Unless you need to interpolate them
-          background: o.interpolate(o => `rgba(210, 57, 77, ${o})`),
-          // Which works with arrays as well
-          transform: xyz.interpolate(
-            (x, y, z) => `translate3d(${x}px, ${y}px, ${z}px)`
-          ),
-          // If you want to combine multiple values use the "interpolate" helper
-          border: interpolate([o, color], (o, c) => `${o * 10}px solid ${c}`),
-          // You can also form ranges, even chain multiple interpolations
-          padding: o
-            .interpolate({ range: [0, 0.5, 1], output: [0, 0, 10] })
-            .interpolate(o => `${o}%`),
-          // Interpolating strings (like up-front) through ranges is allowed ...
-          borderColor: o.interpolate({
-            range: [0, 1],
-            output: ["red", "#ffaabb"]
-          }),
-          // There's also a shortcut for plain, optionless ranges ...
-          opacity: o.interpolate([0.1, 0.2, 0.6, 1], [1, 0.1, 0.5, 1])
-        }}
-      >
-        {o.interpolate(n => n.toFixed(2)) /* innerText interpolation ... */}
-      </animated.div>
-    </>
+    <div className={styles.heroContainer}>
+      <Header />
+      <div onClick={() => setToggle(!toggle)} className={styles.textContainer}>
+        {/*
+          Here we map over the trail which essentially gives us x items of animation, x is the length we pass useTrail
+          Each item is a spring which is essentially attached to previous so they are fired one after another
+        */}
+        {trail.map(({ x, height, ...rest }, index) => (
+          <animated.h1
+            key={text[index]}
+            className={styles.nameText}
+            style={{
+              ...rest,
+              height,
+              transform: x.interpolate(x => `translate3d(0, ${x}px, 0)`)
+            }}
+          >
+            {text[index]}
+          </animated.h1>
+        ))}
+      </div>
+    </div>
   );
 };
 

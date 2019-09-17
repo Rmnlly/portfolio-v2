@@ -1,0 +1,32 @@
+.heroContainer {
+  display: grid;
+  grid-template-columns: repeat(12, [col-start] 1fr);
+  grid-gap: 20px;
+  height: 100vh;
+}
+
+.heroContainer > * {
+  /* Essentially everything is full width on mobile */
+  grid-column: col-start / span 12;
+}
+
+.textContainer {
+  grid-column: 2 / 11;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.nameText {
+  color: white;
+}
+
+.headingName {
+  grid-column: 2 / 11;
+  font-size: 4.5rem;
+}
+
+@media (min-width: 768px) {
+  .headingName {
+    grid-column: 2 / 12;
+  }
+}
